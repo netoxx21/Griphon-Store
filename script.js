@@ -45,4 +45,3 @@ function comprar(produto) {
   const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
   window.open(url, "_blank");
 }
-alert("funcionou");
