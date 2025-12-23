@@ -50,3 +50,5 @@ window.comprar = function (produto) {
   const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
   window.open(url, "_blank");
 };
+
+alert("...");
