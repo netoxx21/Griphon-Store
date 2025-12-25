@@ -5,13 +5,17 @@ document.addEventListener("DOMContentLoaded", () => {
       nome: "Calça Social Feminina",
       descricao: "Elegante e confortável para o dia a dia.",
       preco: "R$ 129,90",
-      imagem: "assets/img/calca-feminina.jpg",
+      imagem: [
+        "assets/img/calca-feminina-frente.jpg",
+        "assets/img/calca-feminina-lado.jpg",
+        "assets/img/calca-feminina-costas.jpg"
+      ],
       whatsapp: "Calça Social Feminina"
     },
     {
       nome: "Calça Social Masculina",
       descricao: "Modelo clássico com ótimo caimento.",
-      preco: "R$ 149,90",
+      preco: "R$ 149,90", 
       imagem: "assets/img/calca-masculina.jpg",
       whatsapp: "Calça Social Masculina"
     },
@@ -30,13 +34,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const card = document.createElement("div");
     card.classList.add("card");
 
-    card.innerHTML = `
-      <img src="${produto.imagem}" alt="${produto.nome}" onclick="abrirImagem('${produto.imagem}')">
-      <h3>${produto.nome}</h3>
-      <p>${produto.descricao}</p>
-      <span class="preco">${produto.preco}</span>
-      <button onclick="comprar('${produto.whatsapp}')">Comprar</button>
-    `;
+const imagens = Array.isArray(produto.imagem)
+  ? produto.imagem
+  : [produto.imagem];
+
+card.innerHTML = `
+  <div class="carousel" data-imagens='${JSON.stringify(imagens)}'>
+    <button class="prev" onclick="trocarImagem(this, -1)">‹</button>
+
+    <img src="${imagens[0]}"
+         alt="${produto.nome}"
+         data-index="0"
+         onclick="abrirImagem('${imagens[0]}')">
+
+    <button class="next" onclick="trocarImagem(this, 1)">›</button>
+  </div>
+
+  <h3>${produto.nome}</h3>
+  <p>${produto.descricao}</p>
+  <span class="preco">${produto.preco}</span>
+  <button onclick="comprar('${produto.whatsapp}')">Comprar</button>
+`;
+
+
 
     container.appendChild(card);
   });
@@ -67,3 +87,20 @@ document.getElementById("modalImagem").onclick = function (e) {
     this.style.display = "none";
   }
 };
+
+window.trocarImagem = function (botao, direcao) {
+  const carousel = botao.closest(".carousel");
+  const img = carousel.querySelector("img");
+
+  const imagens = JSON.parse(carousel.dataset.imagens);
+  let index = parseInt(img.dataset.index);
+
+  index += direcao;
+
+  if (index < 0) index = imagens.length - 1;
+  if (index >= imagens.length) index = 0;
+
+  img.src = imagens[index];
+  img.dataset.index = index;
+};
+
