@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     card.classList.add("card");
 
     card.innerHTML = `
-      <img src="${produto.imagem}" alt="${produto.nome}">
+      <img src="${produto.imagem}" alt="${produto.nome}" onclick="abrirImagem('${produto.imagem}')">
       <h3>${produto.nome}</h3>
       <p>${produto.descricao}</p>
       <span class="preco">${produto.preco}</span>
@@ -49,4 +49,21 @@ window.comprar = function (produto) {
   const mensagem = `Olá! Tenho interesse no produto: ${produto}`;
   const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
   window.open(url, "_blank");
+};
+window.abrirImagem = function (src) {
+  const modal = document.getElementById("modalImagem");
+  const imgModal = document.getElementById("imagemModal");
+
+  imgModal.src = src;
+  modal.style.display = "flex";
+};
+
+document.querySelector(".fechar").onclick = function () {
+  document.getElementById("modalImagem").style.display = "none";
+};
+
+document.getElementById("modalImagem").onclick = function (e) {
+  if (e.target.id === "modalImagem") {
+    this.style.display = "none";
+  }
 };
