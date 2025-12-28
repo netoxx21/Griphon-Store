@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => { 
 
   const produtos = [
     {
@@ -34,58 +34,72 @@ document.addEventListener("DOMContentLoaded", () => {
     const card = document.createElement("div");
     card.classList.add("card");
 
-const imagens = Array.isArray(produto.imagem)
-  ? produto.imagem
-  : [produto.imagem];
+    const imagens = Array.isArray(produto.imagem)
+      ? produto.imagem
+      : [produto.imagem];
 
-card.innerHTML = `
-  <div class="carousel" data-imagens='${JSON.stringify(imagens)}'>
-    <button class="prev" onclick="trocarImagem(this, -1)">‹</button>
+    card.innerHTML = `
+      <div class="carousel" data-imagens='${JSON.stringify(imagens)}'>
+        <button class="prev" onclick="trocarImagem(this, -1)">‹</button>
 
-    <img src="${imagens[0]}"
-         alt="${produto.nome}"
-         data-index="0"
-         onclick="abrirImagem('${imagens[0]}')">
+        <img src="${imagens[0]}"
+             alt="${produto.nome}"
+             data-index="0"
+             onclick='abrirImagem(${JSON.stringify(imagens)}, 0)'>
 
-    <button class="next" onclick="trocarImagem(this, 1)">›</button>
-  </div>
+        <button class="next" onclick="trocarImagem(this, 1)">›</button>
+      </div>
 
-  <h3>${produto.nome}</h3>
-  <p>${produto.descricao}</p>
-  <span class="preco">${produto.preco}</span>
-  <button onclick="comprar('${produto.whatsapp}')">Comprar</button>
-`;
-
-
+      <h3>${produto.nome}</h3>
+      <p>${produto.descricao}</p>
+      <span class="preco">${produto.preco}</span>
+      <button onclick="comprar('${produto.whatsapp}')">Comprar</button>
+    `;
 
     container.appendChild(card);
   });
 
+  // 🔥 CONTROLE DO MODAL (AGORA NO LUGAR CERTO)
+  const modal = document.getElementById("modalImagem");
+  const fechar = document.querySelector(".fechar");
+
+  if (fechar) {
+    fechar.onclick = () => {
+      modal.style.display = "none";
+    };
+  }
+
+  if (modal) {
+    modal.onclick = (e) => {
+      if (e.target.id === "modalImagem") {
+        modal.style.display = "none";
+      }
+    };
+  }
 });
 
-// 👇 FUNÇÃO GLOBAL
+
+// ================= FUNÇÕES GLOBAIS =================
+
 window.comprar = function (produto) {
-  const numero = "5599999999999"; // WhatsApp real
+  const numero = "5599999999999";
   const mensagem = `Olá! Tenho interesse no produto: ${produto}`;
   const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
   window.open(url, "_blank");
 };
-window.abrirImagem = function (src) {
+
+let imagensModal = [];
+let indiceModal = 0;
+
+window.abrirImagem = function (imagens, indiceInicial) {
+  imagensModal = imagens;
+  indiceModal = indiceInicial;
+
   const modal = document.getElementById("modalImagem");
   const imgModal = document.getElementById("imagemModal");
 
-  imgModal.src = src;
+  imgModal.src = imagensModal[indiceModal];
   modal.style.display = "flex";
-};
-
-document.querySelector(".fechar").onclick = function () {
-  document.getElementById("modalImagem").style.display = "none";
-};
-
-document.getElementById("modalImagem").onclick = function (e) {
-  if (e.target.id === "modalImagem") {
-    this.style.display = "none";
-  }
 };
 
 window.trocarImagem = function (botao, direcao) {
@@ -102,5 +116,20 @@ window.trocarImagem = function (botao, direcao) {
 
   img.src = imagens[index];
   img.dataset.index = index;
+};
+
+window.trocarImagemModal = function (direcao) {
+  indiceModal += direcao;
+
+  if (indiceModal < 0) {
+    indiceModal = imagensModal.length - 1;
+  }
+
+  if (indiceModal >= imagensModal.length) {
+    indiceModal = 0;
+  }
+
+  document.getElementById("imagemModal").src =
+    imagensModal[indiceModal];
 };
 

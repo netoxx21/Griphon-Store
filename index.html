@@ -23,9 +23,16 @@
 
   <script src="script.js" defer></script>
   <!-- MODAL DE IMAGEM -->
+   
   <div id="modalImagem" class="modal">
-    <span class="fechar">&times;</span>
-    <img class="modal-conteudo" id="imagemModal">
-  </div>
+  <button class="modal-prev" onclick="trocarImagemModal(-1)">‹</button>
+
+  <img id="imagemModal" />
+
+  <button class="modal-next" onclick="trocarImagemModal(1)">›</button>
+
+  <span class="fechar">&times;</span>
+</div>
+
 </body>
 </html>
