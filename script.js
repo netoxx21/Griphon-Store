@@ -5,11 +5,17 @@ document.addEventListener("DOMContentLoaded", () => {
       nome: "Calça Social Feminina",
       descricao: "Elegante e confortável para o dia a dia.",
       preco: "R$ 40,00",
-      imagem: [
+      cores: {
+        preta:[
         "assets/img/calca-feminina-frente.jpg",
         "assets/img/calca-feminina-lado.jpg",
         "assets/img/calca-feminina-costas.jpg"
       ],
+        azul:[
+        "assets/img/calca-feminina-azul-frente.jpg",
+        "assets/img/calca-feminina-azul-lado.jpg"
+      ],
+    },
       whatsapp: "Calça Social Feminina"
     },
     {
@@ -25,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       nome: "Calça Social Masculina em Alfaiataria",
       descricao: "Modelo clássico com ótimo caimento.",
-      preco: "R$ 40,00 (Consultar cores com o vendedor)", 
+      preco: "R$ 40,00", 
       imagem: [
         "assets/img/calca-alfaiataria.jpg",
         "assets/img/calca-alfaiataria-lado.jpg",
@@ -45,30 +51,43 @@ document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("produtos");
 
   produtos.forEach(produto => {
+
     const card = document.createElement("div");
     card.classList.add("card");
 
-    const imagens = Array.isArray(produto.imagem)
-      ? produto.imagem
-      : [produto.imagem];
+    const cores = produto.cores || null;
+const imagensPadrao = cores ? produto.cores.preta : produto.imagem;
+const imagens = Array.isArray(imagensPadrao) ? imagensPadrao : [imagensPadrao];
 
-    card.innerHTML = `
-      <div class="carousel" data-imagens='${JSON.stringify(imagens)}'>
-        <button class="prev" onclick="trocarImagem(this, -1)">‹</button>
+card.innerHTML = `
+  <div class="carousel" data-imagens='${JSON.stringify(imagens)}'>
+    <button class="prev" onclick="trocarImagem(this, -1)">‹</button>
 
-        <img src="${imagens[0]}"
-             alt="${produto.nome}"
-             data-index="0"
-             onclick='abrirImagem(${JSON.stringify(imagens)}, 0)'>
+    <img src="${imagens[0]}"
+         alt="${produto.nome}"
+         data-index="0"
+         onclick='abrirImagem(${JSON.stringify(imagens)}, 0)'>
 
-        <button class="next" onclick="trocarImagem(this, 1)">›</button>
-      </div>
+    <button class="next" onclick="trocarImagem(this, 1)">›</button>
+  </div>
 
-      <h3>${produto.nome}</h3>
-      <p>${produto.descricao}</p>
-      <span class="preco">${produto.preco}</span>
-      <button onclick="comprar('${produto.whatsapp}')">Comprar</button>
-    `;
+  ${
+    cores ? `
+    <div class="cores">
+      <span class="cor preta"
+            onclick='trocarCor(this, ${JSON.stringify(produto.cores.preta)})'></span>
+      <span class="cor azul"
+            onclick='trocarCor(this, ${JSON.stringify(produto.cores.azul)})'></span>
+    </div>
+    ` : ""
+  }
+
+  <h3>${produto.nome}</h3>
+  <p>${produto.descricao}</p>
+  <span class="preco">${produto.preco}</span>
+  <button onclick="comprar('${produto.whatsapp}')">Comprar</button>
+`;
+
 
     container.appendChild(card);
   });
@@ -147,3 +166,12 @@ window.trocarImagemModal = function (direcao) {
     imagensModal[indiceModal];
 };
 
+window.trocarCor = function (elemento, novasImagens) {
+  const card = elemento.closest(".card");
+  const carousel = card.querySelector(".carousel");
+  const img = carousel.querySelector("img");
+
+  carousel.dataset.imagens = JSON.stringify(novasImagens);
+  img.src = novasImagens[0];
+  img.dataset.index = 0;
+};
