@@ -115,7 +115,7 @@ card.innerHTML = `
 // ================= FUNÇÕES GLOBAIS =================
 
 window.comprar = function (produto) {
-  const numero = "5599999999999";
+  const numero = "5581992983193";
   const mensagem = `Olá! Tenho interesse no produto: ${produto}`;
   const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
   window.open(url, "_blank");
