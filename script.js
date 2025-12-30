@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       nome: "Calça Social Feminina",
       descricao: "Elegante e confortável para o dia a dia.",
-      preco: "R$ 129,90",
+      preco: "R$ 40,00",
       imagem: [
         "assets/img/calca-feminina-frente.jpg",
         "assets/img/calca-feminina-lado.jpg",
@@ -15,14 +15,28 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       nome: "Calça Social Masculina",
       descricao: "Modelo clássico com ótimo caimento.",
-      preco: "R$ 149,90", 
-      imagem: "assets/img/calca-masculina.jpg",
+      preco: "R$ 30,00", 
+      imagem: [
+        "assets/img/calca-masculina.jpg",
+        "assets/img/calca-masculina-costa.jpg"
+      ],
+      whatsapp: "Calça Social Masculina"
+    },
+    {
+      nome: "Calça Social Masculina em Alfaiataria",
+      descricao: "Modelo clássico com ótimo caimento.",
+      preco: "R$ 40,00 (Consultar cores com o vendedor)", 
+      imagem: [
+        "assets/img/calca-alfaiataria.jpg",
+        "assets/img/calca-alfaiataria-lado.jpg",
+        "assets/img/calca-alfaiataria-costas.jpg"
+      ],
       whatsapp: "Calça Social Masculina"
     },
     {
       nome: "Saia Social",
       descricao: "Ideal para trabalho e eventos.",
-      preco: "R$ 99,90",
+      preco: "R$ 35,00",
       imagem: "assets/img/saia-social.jpg",
       whatsapp: "Saia Social"
     }
